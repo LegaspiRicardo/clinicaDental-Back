@@ -2,10 +2,10 @@ const pool = require('../config/db');
 
 //crear usuario
 const createUser = async (user) => {
-    const {username,email,password} = user;
-    const [result] = await pool.query('INSERT INTO users (username,email,password) VALUES (?,?,?)',[username,email,password]);
+    const {username,email,password, telefono, rol, status} = user;
+    const [result] = await pool.query('INSERT INTO users (username,email,password, telefono, rol, status) VALUES (?,?,?,?,?,?)',[username,email,password, telefono, rol, status]);
 
-    return {id: result.insertId, username, email};
+    return {id: result.insertId, username, email, telefono, rol, status};
 };
 
 // obtener usuario por email
@@ -22,6 +22,11 @@ const userExists = async (email) => {
 const getUserById = async (id) => {
     const [rows] = await pool.query('SELECT * FROM users WHERE id = ?',[id]);
     return rows[0];
+};
+
+const getUsersByRole = async (role) => {
+  const [rows] = await pool.query('SELECT id, username, email, telefono FROM users WHERE rol = ?', [role]);
+  return rows;
 };
 
 //Actualizar usuario
@@ -47,4 +52,4 @@ const deleteUser = async (id) => {
     const [result] = await pool.query('DELETE FROM users WHERE id = ?',[id]);
     return result.affectedRows > 0;
 };
-module.exports = {createUser,getUserByEmail,userExists,getUserById,updateUser,deleteUser};
+module.exports = {createUser,getUserByEmail,userExists,getUserById,updateUser,deleteUser, getUsersByRole};
