@@ -14,6 +14,8 @@ npm install react-router-dom axios zustand
 
 
 
+
+
 archivo .env
 
 DB_HOST = localhost
@@ -22,3 +24,8 @@ DB_PASSWORD =
 DB_NAME =  prueba-calendario
 PORT= 5000
 JWT_SECRET=6b8a48a9dfc43523e9b123abf92efeb103ad4852395a9f9084d7b4e4ef8a3b4e
+
+
+
+Para correr el proyecto, accede a la carpeta desde terminal. Y en la carpeta raiz ejecuta 
+"npm start"
