@@ -2,10 +2,12 @@ const pool = require('../config/db');
 
 //crear usuario
 const createUser = async (user) => {
-    const {username,email,password, telefono, rol, status} = user;
-    const [result] = await pool.query('INSERT INTO users (username,email,password, telefono, rol, status) VALUES (?,?,?,?,?,?)',[username,email,password, telefono, rol, status]);
+    const {username,email,password, telefono, rol, status, especialidad} = user;
+      console.log('Insertando usuario con datos:', { username, email, password, telefono, rol, status, especialidad });
+  
+    const [result] = await pool.query('INSERT INTO users (username, email, password, telefono, rol, status, especialidad) VALUES (?,?,?,?,?,?,?)',[username,email,password, telefono, rol, status, especialidad]);
 
-    return {id: result.insertId, username, email, telefono, rol, status};
+    return {id: result.insertId, username, email, telefono, rol, status, especialidad};
 };
 
 // obtener usuario por email

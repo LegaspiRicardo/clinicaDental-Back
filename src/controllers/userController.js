@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const userModel = require('../models/userModel');
+const pool = require('../config/db');
+
 
 const getPacientes = async (req, res) => {
     try {
@@ -10,30 +12,40 @@ const getPacientes = async (req, res) => {
     }
 };
 
+const getDentistas = async (req, res) => {
+    try {
+        const [rows] = await pool.query("SELECT * FROM users WHERE rol = 'Dentista'");
+        res.json(rows); 
+    } catch (error) {
+        console.error('Error al obtener dentistas:', error);
+        res.status(500).json({ error: 'Error al obtener dentistas' });
+    }
+};
+
+
 const registerUser = async (req, res) => {
 
-    const { username, email, password, telefono, rol, status } = req.body;
+    const { username, email, password, telefono, rol, status, especialidad } = req.body;
     console.log("Datos recibidos en /register:", req.body);
     // Validar campos obligatorios (puedes ajustar según necesites)
     if (!username || !email || !password || !rol) {
         return res.status(400).json({ error: 'username, email, password y rol son obligatorios' });
     }
 
-    try {
+ try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log("Intentando crear usuario con:", {
+        const newUser = await userModel.createUser({
             username,
             email,
             password: hashedPassword,
             telefono,
             rol,
-            status
+            status,
+            especialidad,
         });
-        // Crear usuario con todos los campos
-        const newUser = await userModel.createUser({ username, email, password: hashedPassword, telefono, rol, status });
 
         res.status(201).json(newUser);
-    } catch (error) {
+    }  catch (error) {
         console.error(error);
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(409).json({ error: 'El email ya está registrado' });
@@ -98,5 +110,6 @@ module.exports = {
     getPacientes,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    getDentistas,
 };
