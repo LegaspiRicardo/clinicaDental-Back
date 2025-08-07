@@ -1,5 +1,6 @@
-const servicioModel = require('../models/servicioModel');
-const pool = require('../config/db');
+import * as servicioModel from '../models/servicioModel.js'; // ✅ Correcto
+
+import pool from '../config/db.js';
 // Obtener todos los servicios por ID de usuario
 const getAllServicios = async (req, res) => {
     try {
@@ -103,7 +104,7 @@ const deleteServicio = async (req, res) => {
     }
 };
 
-module.exports = {
+export default{
     getAllServicios,
     getServicio,
     addServicio,

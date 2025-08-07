@@ -1,35 +1,37 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+// src/index.js
 
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
+import userRoutes from './routes/userRoute.js';
+import servicioRoutes from './routes/servicioRoute.js';
+import horarioRoutes from './routes/horarioRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-
-// Middleware
-app.use(cors(
-    {origin: 'http://localhost:5173', // Cambia esto a tu frontend si es necesario
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true // Permite enviar cookies y encabezados de autenticación
-    }
-));
+// Middlewares
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Rutas crear servicios
-
-const servicioRoutes = require('./routes/servicioRoute');
-app.use('/api/servicios', servicioRoutes);
-
-// Rutas crear usuarios
-const userRoutes = require('./routes/userRoute');
+// Rutas
 app.use('/api/users', userRoutes);
-
-//login
-const authRoutes = require('./routes/authRoutes');
+app.use('/api/servicios', servicioRoutes);
+app.use('/api/horario', horarioRoutes);
 app.use('/api/auth', authRoutes);
+// Ruta raíz de prueba
+app.get('/', (req, res) => {
+  res.send('API Clínica Dental en funcionamiento ✅');
+});
 
-//inicializar el servidor
-const PORT = process.env.PORT || 5000;
-app.listen(PORT,()=> {
-    console.log(`Servidor corriendo papi en puerto: ${PORT}`);
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(`Servidor backend escuchando en http://localhost:${PORT}`);
 });

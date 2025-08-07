@@ -1,17 +1,17 @@
-const pool = require('../config/db');
+import pool from '../config/db.js';
 
 
-const getAllServiciosByUserId = async (userId) => {
+export const getAllServiciosByUserId = async (userId) => {
   const [rows] = await pool.query('SELECT * FROM servicio WHERE user_id = ?', [userId]);
   return rows;
 };
 
-const getServicioByIdAndUserId = async (servicioId, userId) => {
+export const getServicioByIdAndUserId = async (servicioId, userId) => {
     const [rows] = await pool.query('SELECT * FROM servicio WHERE id = ? AND user_id = ?', [servicioId, userId]);
     return rows[0];
 };
 
-const createServicio = async ({ name, description, precio, duracion_estimada, user_id }) => {
+export const createServicio = async ({ name, description, precio, duracion_estimada, user_id }) => {
     const [result] = await pool.query(
         'INSERT INTO servicio (name, description, precio, duracion_estimada, user_id) VALUES (?, ?, ?, ?, ?)',
         [name, description, precio, duracion_estimada, user_id]
@@ -20,7 +20,7 @@ const createServicio = async ({ name, description, precio, duracion_estimada, us
 };
 
 
-const updateServicio = async (servicioId, servicio) => { 
+export const updateServicio = async (servicioId, servicio) => { 
     const { name, description = null, precio, duracion_estimada } = servicio;
 
     await pool.query(
@@ -40,10 +40,3 @@ const deleteServicio = async (servicioId) => {
     await pool.query('DELETE FROM servicio WHERE id = ?', [servicioId]);
 };
 
-module.exports = {
-    getAllServiciosByUserId,
-    getServicioByIdAndUserId,
-    createServicio,
-    updateServicio,
-    deleteServicio,
-};

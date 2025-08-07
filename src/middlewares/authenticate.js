@@ -1,27 +1,17 @@
-const jwt = require('jsonwebtoken');
+// src/middlewares/authenticate.js
+import jwt from 'jsonwebtoken';
 
 const authenticate = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  console.log('authHeader:', authHeader);
-
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Token no proporcionado' });
-  }
-
-  const token = authHeader.split(' ')[1];
-  console.log('Token extraído:', token);
+  const token = req.headers['authorization']?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'No autorizado' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Token decodificado:', decoded);
     req.user = decoded;
     next();
-  } catch (err) {
-    console.error('Error en la autenticación:', err);
-    res.status(403).json({ message: 'Token inválido' });
+  } catch (error) {
+    return res.status(401).json({ message: 'Token inválido' });
   }
 };
 
-
-module.exports = authenticate;
+export default authenticate;
