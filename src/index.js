@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Rutas
 app.use('/api/users', userRoutes);
 app.use('/api/servicios', servicioRoutes);
-app.use('/api/horario', horarioRoutes);
+app.use('/api/horarios', horarioRoutes);
 app.use('/api/auth', authRoutes);
 // Ruta raíz de prueba
 app.get('/', (req, res) => {
