@@ -4,20 +4,23 @@ import bcrypt from 'bcrypt';
 import {
   createUser,
   getUsersByRole,
+  getPacientesActivosModel,
   getUserById,
   updateUser,
   deleteUser
 } from '../models/userModel.js';
 import pool from '../config/db.js';
 
+// Controlador que responde a la ruta GET /api/users/pacientes
 export const getPacientes = async (req, res) => {
   try {
-    const pacientes = await getUsersByRole('Paciente');
+    const pacientes = await getPacientesActivosModel(); // Usar función del modelo
     res.json(pacientes);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener pacientes' });
   }
 };
+
 
 export const getDentistas = async (req, res) => {
   try {
@@ -118,4 +121,8 @@ export const getDentistasActivos = async (req, res) => {
   }
 };
 
+export const getPacientesActivos = async () => {
+  const [rows] = await pool.query("SELECT * FROM users WHERE rol = 'Paciente' AND status = 'Activo'");
+  return rows;
+};
 

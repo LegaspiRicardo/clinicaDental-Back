@@ -15,6 +15,16 @@ const getAllServicios = async (req, res) => {
     }
 };
 
+
+const getAllServiciosPublicos = async (req, res) => {
+  try {
+    const servicios = await servicioModel.getAllServicios();
+    res.json(servicios);
+  } catch (error) {
+    console.error('Error al obtener servicios:', error.message);
+    res.status(500).json({ message: 'Error al obtener servicios' });
+  }
+};
 // Obtener una servicio por ID
 const getServicio = async (req, res) => {
     try {
@@ -110,4 +120,5 @@ export default{
     addServicio,
     updateServicio,
     deleteServicio,
+    getAllServiciosPublicos,
 };

@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoute.js';
 import servicioRoutes from './routes/servicioRoute.js';
 import horarioRoutes from './routes/horarioRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import citaRoutes from './routes/citaRoute.js';
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/servicios', servicioRoutes);
 app.use('/api/horarios', horarioRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/citas', citaRoutes);
+
 // Ruta raíz de prueba
 app.get('/', (req, res) => {
   res.send('API Clínica Dental en funcionamiento ✅');

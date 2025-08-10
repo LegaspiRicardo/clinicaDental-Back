@@ -32,7 +32,10 @@ export const updateServicio = async (servicioId, servicio) => {
 };
 
 
-
+export const getAllServicios = async () => {
+  const [rows] = await pool.query('SELECT * FROM servicio');
+  return rows;
+};
 
 
 

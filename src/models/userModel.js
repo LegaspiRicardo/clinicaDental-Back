@@ -39,6 +39,12 @@ export const getUsersByRole = async (role) => {
   return rows;
 };
 
+// Obtener pacientes activos (solo con rol = Paciente y status = Activo)
+export const getPacientesActivosModel = async () => {
+  const [rows] = await pool.query("SELECT * FROM users WHERE rol = 'Paciente' AND status = 'Activo'");
+  return rows;
+};
+
 // Actualizar usuario
 export const updateUser = async (id, updates) => {
   const fields = [];
