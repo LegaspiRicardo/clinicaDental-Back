@@ -72,3 +72,18 @@ export const getCitasByDentista = async (req, res) => {
   }
 };
 
+export const deleteCita = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await pool.query('DELETE FROM cita WHERE id = ?', [id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Cita no encontrada' });
+    }
+
+    res.json({ message: 'Cita eliminada correctamente' });
+  } catch (error) {
+    console.error('Error eliminando cita:', error);
+    res.status(500).json({ error: 'Error eliminando cita' });
+  }
+};

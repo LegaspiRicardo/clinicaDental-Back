@@ -1,5 +1,3 @@
-// src/index.js
-
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -34,7 +32,7 @@ app.get('/', (req, res) => {
   res.send('API Clínica Dental en funcionamiento ✅');
 });
 
-// Iniciar servidor
+// Iniciar servidor (una sola vez)
 app.listen(PORT, () => {
   console.log(`Servidor backend escuchando en http://localhost:${PORT}`);
 });
